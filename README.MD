@@ -24,19 +24,23 @@
 
 # strength of schedule logic --
 
-### round 1
+## round 1
+
+### Pod 1
 
 - playerA -- > \*1 = 4 points = 1 quarter
 - playerB -- > \*2 = 3 points = 1 dime
 - playerC -- > \*3 = 2 points = 1 nickel
 - playerD -- > \*4 = 2 points = 1 nickel
 
+### Pod 2
+
 - playerF -- > \*1 = 4 points = 1 quarter
 - playerG -- > \*2 = 3 points = 1 dime
 - playerH -- > \*3 = 2 points = 1 nickel
 - playerI -- > \*4 = 2 points = 1 nickel
 
-### round 2
+## round 2
 
 ### display highest winners
 
@@ -46,7 +50,7 @@
 - playerG = 3
 - ...
 
-### players with highest amounts of points play each other
+## players with highest amounts of points play each other
 
 - playerA -- > \*1 = 4 points = 1 quarter
 - playerF -- > \*2 = 3 points = 1 dime
