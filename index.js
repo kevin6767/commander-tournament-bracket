@@ -127,5 +127,8 @@ function shuffle (cube) {
 
 
 
-startBtn.addEventListener("submit", addPlayer);
+startBtn.addEventListener("submit", function(e){
+  e.preventDefault()
+  addPlayer()
+});
 gameBtn.addEventListener("click", buildCubes);
