@@ -1,15 +1,8 @@
 const players = [];
-const numOfPlayers = 9
-for (let n = 1; n <= numOfPlayers; n++) {
-  players.push({
-    id: n,
-    name: "FOO",
-    deck: "bar",
-    points: 0
-  })
-}
-var startBtn = document.getElementById("addPlayer");
-var gameBtn = document.getElementById("initGame");
+
+let startBtn = document.querySelector("form");
+let gameBtn = document.getElementById("initGame");
+let gameHolder = document.getElementById('game')
 function Player(name, deck) {
   this.name = name;
   this.deck = deck;
@@ -38,50 +31,34 @@ function logPlayers() {
       ") " +
       players[index].name +
       " | " +
-      players[index].deck +
+      players[index].deck  +
       "<br>";
   }
   document.getElementById("output").innerHTML = output;
 }
-
-function buildCubes(players) {
+function deleteItem(){
+  this.remove()
+}
+function buildCubes() {
   let cube = [];
   const four = Math.floor(players.length / 4);
   const remainder = players.length % 4 
   for (let i = 0; i < players.length; i = i + 4) {
-    console.log(i)
+    //console.log(i)
     cube = [...cube, players.slice(i, i + 4)]
   }
   console.log("cube => ", cube)
   if (!remainder) {
+    shuffle(cube)
     return cube
   }
   if (remainder < 3) {
     const lastCubeIndex = cube.length - 1
     cube[lastCubeIndex] = makeThreeOrMore(lastCubeIndex, lastCubeIndex - 1, cube)
-    // let overrunControl = 0
-    // const lastCubeIndex = cube.length - 1
-    // console.log('cube[lastCubeIndex] => ', cube[lastCubeIndex])
-    // while (cube[lastCubeIndex].length < 3) {
-    //   console.log('cube[lastCubeIndex] => ', cube[lastCubeIndex])
-    //   if(overrunControl >= 50) {
-    //     console.error('OVERRUN')
-    //     break
-    //   }
-    //   cube[lastCubeIndex] = [cube[lastCubeIndex - 1].pop(), ...cube[lastCubeIndex]]
-    // }
+    
   }
-  // for (let index = 0; index < four; index++) {
-  //   for (let j = 0; j < 4; j++) {
-  //     if (!cube[index]) {
-  //       cube[index] = [];
-  //     }
-
-  //     cube[index].push(players[playerIndex]);
-  //     playerIndex++;
-  //   }
-  // }
-  return cube
+  
+  
 }
 
 let overrunControl = 0
@@ -90,9 +67,9 @@ const makeThreeOrMore = (currentPodIndex, prevPodIndex, cube) => {
 
   // Ignore this overrun stuff.. it's to control out of control loops
   overrunControl++
-  console.log('overrunControl => ', overrunControl)
+  //console.log('overrunControl => ', overrunControl)
   if(overrunControl >= 50) {
-    console.error('OVERRUN')
+    //console.error('OVERRUN')
     return
   }
   //////
@@ -107,13 +84,48 @@ const makeThreeOrMore = (currentPodIndex, prevPodIndex, cube) => {
     }
     /////////
     cube[currentPodIndex] = [prevPod.pop(), ...cube[currentPodIndex]]
-    console.log('cube[currentPodIndex] => ', cube[currentPodIndex])
-    console.log('prevPod => ', prevPod)
+    //console.log('cube[currentPodIndex] => ', cube[currentPodIndex])
+    //console.log('prevPod => ', prevPod)
+    shuffle(cube)
   }
   return prevPod.length < 3 ? makeThreeOrMore(prevPodIndex, prevPodIndex - 1, cube) : cube[currentPodIndex]
 }
 
 
-console.log(buildCubes(players))
-startBtn.addEventListener("click", addPlayer);
+function initGame(cube) {
+    console.log('starting')
+    console.log('I got the cube',cube)
+    console.log(cube.length)
+    
+    for (let index = 0; index < cube.length; index++) {
+      let podHolder = document.createElement('ul')
+      podHolder.setAttribute('id', 'pod'+index)
+      for (let j = 0; j < cube[index].length; j++) {
+        let podIndex = document.createElement('li')
+        podIndex.setAttribute('id','index'+j)
+        podIndex.innerHTML = cube[index][j].name
+        
+        podHolder.appendChild(podIndex)
+      }
+      gameHolder.appendChild(podHolder)
+    }
+    
+}
+
+function shuffle (cube) {
+  for (let index = 0; index < cube.length; index++) {
+    for (let j = 0; j < cube[index].length; j++) {
+      cube[index].sort(() => Math.random() - 0.5)
+      
+    }
+    
+  }
+  initGame(cube)
+}
+
+
+
+
+
+startBtn.addEventListener("submit", addPlayer);
 gameBtn.addEventListener("click", buildCubes);
