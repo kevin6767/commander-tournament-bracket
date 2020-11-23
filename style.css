@@ -1,0 +1,11 @@
+.pod {
+  display: flex;
+  padding: 25px;
+  margin: 10px;
+  align-items: center;
+}
+.index {
+  padding: 15px;
+  margin: 10px;
+  text-align: center;
+}

@@ -40,6 +40,7 @@ function deleteItem(){
   this.remove()
 }
 function buildCubes() {
+  shuffle(players)
   let cube = [];
   const four = Math.floor(players.length / 4);
   const remainder = players.length % 4 
@@ -49,7 +50,7 @@ function buildCubes() {
   }
   console.log("cube => ", cube)
   if (!remainder) {
-    shuffle(cube)
+    initGame(cube)
     return cube
   }
   if (remainder < 3) {
@@ -86,7 +87,7 @@ const makeThreeOrMore = (currentPodIndex, prevPodIndex, cube) => {
     cube[currentPodIndex] = [prevPod.pop(), ...cube[currentPodIndex]]
     //console.log('cube[currentPodIndex] => ', cube[currentPodIndex])
     //console.log('prevPod => ', prevPod)
-    shuffle(cube)
+    initGame(cube)
   }
   return prevPod.length < 3 ? makeThreeOrMore(prevPodIndex, prevPodIndex - 1, cube) : cube[currentPodIndex]
 }
@@ -96,34 +97,67 @@ function initGame(cube) {
     console.log('starting')
     console.log('I got the cube',cube)
     console.log(cube.length)
-    
+    let roundHeading = document.createElement('h1')
+    roundHeading.classList.add('roundHeading')
+    roundHeading.innerHTML = 'Round 1'
+
+    gameHolder.appendChild(roundHeading)
     for (let index = 0; index < cube.length; index++) {
-      let podHolder = document.createElement('ul')
-      podHolder.setAttribute('id', 'pod'+index)
+      let podHolder = document.createElement('div')
+      podHolder.classList.add('pod')
+      podHolder.classList.add(index)
+      
+      let podHeading = document.createElement('h1')
+      podHeading.classList.add('podHeading')
+      podHeading.innerHTML = 'Pod' + ' ' + (index + 1)
+
+      podHolder.appendChild(podHeading)
       for (let j = 0; j < cube[index].length; j++) {
-        let podIndex = document.createElement('li')
-        podIndex.setAttribute('id','index'+j)
-        podIndex.innerHTML = cube[index][j].name
-        
-        podHolder.appendChild(podIndex)
+        let playerHolder = document.createElement('div')
+        playerHolder.classList.add('index')
+
+        let playerName = document.createElement('h2')
+        playerName.setAttribute('id',cube[index][j].name)
+        playerName.innerHTML = cube[index][j].name
+
+        let firstBtn = document.createElement('button')
+        firstBtn.classList.add(cube[index][j].id)
+        firstBtn.innerHTML = '1st place'
+        firstBtn.addEventListener('click', e => {
+            firstCounters(cube[index][j])
+            firstBtn.disabled = true
+        } )
+        let secondBtn = document.createElement('button')
+        secondBtn.innerHTML = '2nd Place'
+        secondBtn.classList.add(cube[index][j].id)
+
+        playerHolder.appendChild(playerName)
+        playerHolder.appendChild(firstBtn)
+        playerHolder.appendChild(secondBtn)
+        podHolder.appendChild(playerHolder)
       }
       gameHolder.appendChild(podHolder)
     }
     
 }
 
-function shuffle (cube) {
-  for (let index = 0; index < cube.length; index++) {
-    for (let j = 0; j < cube[index].length; j++) {
-      cube[index].sort(() => Math.random() - 0.5)
+function shuffle (players) {
+  console.log(players)
+  for (let index = 0; index < players.length; index++) {
+      players.sort(() => Math.random() - 0.5)
       
     }
-    
-  }
-  initGame(cube)
+  
+  return players
 }
 
+function firstCounters(cube){
+  console.log(cube)
 
+  cube.points = 4 + cube.points;
+
+  console.log(cube)
+}
 
 
 
