@@ -1,5 +1,6 @@
 const players = [];
-
+var startBtn = document.getElementById("addPlayer");
+var gameBtn = document.getElementById("initGame");
 function Player(name, deck) {
   this.name = name;
   this.deck = deck;
@@ -50,3 +51,5 @@ function initGame() {
   }
   console.log(cube[1]);
 }
+startBtn.addEventListener("click", addPlayer);
+gameBtn.addEventListener("click", initGame);
