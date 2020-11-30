@@ -1,6 +1,6 @@
 const players = [];
 let round = 0
-
+let counter = 0
 let startBtn = document.querySelector("form");
 let gameBtn = document.getElementById("initGame");
 let gameHolder = document.getElementById('game')
@@ -101,12 +101,13 @@ const makeThreeOrMore = (currentPodIndex, prevPodIndex, cube) => {
 
 
 function initRound(cube) {
+    counter++
     console.log('starting')
     console.log('I got the cube',cube)
     console.log(cube.length)
     let roundHeading = document.createElement('h1')
     roundHeading.classList.add('roundHeading')
-    roundHeading.innerHTML = 'Round 1'
+    roundHeading.innerHTML = 'Round ' + counter
 
     gameHolder.appendChild(roundHeading)
     for (let index = 0; index < cube.length; index++) {
